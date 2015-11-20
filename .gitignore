@@ -1,0 +1,6 @@
+
+.vagrant/
+
+dropwizard-example/target/
+
+dropwizard-example/docker/app/
