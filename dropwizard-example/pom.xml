@@ -38,7 +38,7 @@
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-bom</artifactId>
-                <version>${project.version}</version>
+                <version>0.9.1</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -253,6 +253,25 @@
                             <goal>shade</goal>
                         </goals>
                     </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                  <execution>
+                    <phase>package</phase>
+                    <configuration>
+                      <target name="Copy built files to docker directory">
+                          <copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" tofile="docker/app/${project.artifactId}-${project.version}.jar" />
+                          <copy file="example.keystore" tofile="docker/app/example.keystore" />
+                          <copy file="example.yml" tofile="docker/app/example.yml" />
+                      </target>
+                    </configuration>
+                    <goals>
+                      <goal>run</goal>
+                    </goals>
+                  </execution>
                 </executions>
             </plugin>
         </plugins>

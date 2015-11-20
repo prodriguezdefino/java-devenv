@@ -4,3 +4,5 @@
 dropwizard-example/target/
 
 dropwizard-example/docker/app/
+
+dropwizard-example/dependency-reduced-pom.xml
