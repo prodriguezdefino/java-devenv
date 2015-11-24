@@ -30,8 +30,8 @@ dns=$(sudo docker run -d \
     crosbymichael/skydns \
     -nameserver $fwd_dns:53 \
     -domain docker)
-echo "Starting dns regristry ..."
-echo "**************************"
+echo "Starting dns registry ..."
+echo "*************************"
 echo $dns
 echo " "
 
@@ -75,15 +75,29 @@ sudo chmod -R a+r /vagrant/war
 
 # boot the jetty instance
 jetty=$(sudo docker run -d \
-  --name services \
-  -h services.jetty.dev.docker \
+  --name war \
+  -h war.jetty.dev.docker \
   -p 8080:8080 \
   -v /vagrant/war:/var/lib/jetty/webapps \
   --dns=$DNS_IP \
   library/jetty)
-echo "Starting jetty instance services.jetty.dev.docker ..."
+echo "Starting jetty instance war.jetty.dev.docker ..."
 echo "*****************************************************"
 echo $jetty
+echo " "
+
+sleep 5
+
+# boot the dropwizard-example instance
+dropwizard=$(sudo docker run -d \
+  --name services \
+  -h services.dropwizard-example.dev.docker \
+  -p 8181:8080 \
+  --dns=$DNS_IP \
+  dropwizard-example)
+echo "Starting dropwizard services instance services.dropwizard-example.dev.docker ..."
+echo "********************************************************************************"
+echo $dropwizard
 echo " "
 
 sleep 5
