@@ -20,10 +20,8 @@ RUN add-apt-repository -y ppa:webupd8team/java
 RUN apt-get update && apt-get upgrade -y --force-yes && apt-get install -y --force-yes oracle-java8-installer  
 
 # set java environment variables
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV PATH $PATH:$JAVA_HOME/bin
+RUN apt-get install oracle-java8-set-default
 
 ADD app/ /
 
 CMD java -jar dropwizard-example-1.0.0-SNAPSHOT.jar server example.yml
-

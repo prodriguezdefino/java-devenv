@@ -90,3 +90,5 @@ viewRendererConfiguration:
 metrics:
   type: graphite
   frequency: 10s
+  host: metrics.graphite.dev.docker
+  port: 2003
