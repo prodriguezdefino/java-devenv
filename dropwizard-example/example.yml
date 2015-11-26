@@ -92,3 +92,6 @@ metrics:
   frequency: 10s
   host: metrics.graphite.dev.docker
   port: 2003
+  prefix: example
+
+

@@ -1,4 +1,5 @@
 package com.example.helloworld;
+
 import com.example.helloworld.auth.ExampleAuthorizer;
 import io.dropwizard.auth.AuthValueFactoryProvider;
 import com.example.helloworld.auth.ExampleAuthenticator;
@@ -26,17 +27,19 @@ import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.dropwizard.util.Duration;
 import io.dropwizard.views.ViewBundle;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import java.util.Map;
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
+
     public static void main(String[] args) throws Exception {
         new HelloWorldApplication().run(args);
     }
 
-    private final HibernateBundle<HelloWorldConfiguration> hibernateBundle =
-            new HibernateBundle<HelloWorldConfiguration>(Person.class) {
+    private final HibernateBundle<HelloWorldConfiguration> hibernateBundle
+            = new HibernateBundle<HelloWorldConfiguration>(Person.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
                     return configuration.getDataSourceFactory();
@@ -79,6 +82,12 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     public void run(HelloWorldConfiguration configuration, Environment environment) {
         final PersonDAO dao = new PersonDAO(hibernateBundle.getSessionFactory());
         final Template template = configuration.buildTemplate();
+
+        Duration publishCycleDuration = configuration.getGraphiteReporterFactory().
+                getFrequency().or(Duration.seconds(10L));
+
+        configuration.getGraphiteReporterFactory().build(environment.metrics()).
+                start(publishCycleDuration.getQuantity(), publishCycleDuration.getUnit());
 
         environment.healthChecks().register("template", new TemplateHealthCheck(template));
         environment.jersey().register(DateRequiredFeature.class);

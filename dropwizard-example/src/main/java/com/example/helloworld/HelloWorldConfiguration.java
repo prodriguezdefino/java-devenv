@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Map;
 
 public class HelloWorldConfiguration extends Configuration {
+
     @NotEmpty
     private String template;
 
