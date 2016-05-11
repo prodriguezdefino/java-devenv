@@ -1,24 +1,28 @@
 #!/bin/bash
 
+# get current directory
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# add alias for the dev env
+alias devenv='sh $DIR/devenv.sh'
 
 case "$1" in
     down)
-        source devenv-down.sh
+        source internal/devenv-down.sh
         ;;
     reload)
-        source devenv-reload-containers.sh
+        source internal/devenv-reload-containers.sh
         ;;
     logs)
-        source devenv-logs.sh $2
+        source internal/devenv-logs.sh $2
         ;;
     status)
-        source devenv-status.sh
+        source internal/devenv-status.sh
         ;;
     up)
-        source devenv-up.sh
+        source internal/devenv-up.sh
         ;;
     inspect)
-        source devenv-inspect.sh $2
+        source internal/devenv-inspect.sh $2
         ;;
      
     *)

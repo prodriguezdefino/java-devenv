@@ -51,6 +51,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   SCRIPT
 
   # default provisioning of the nginx instance
-  config.vm.provision :shell, run: "always", path: "devenv-startup.sh"
+  config.vm.provision :shell, run: "always", path: "internal/devenv-startup.sh"
   
 end
